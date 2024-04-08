@@ -208,12 +208,20 @@ const groupResponseBuilder = (message) => {
     cio_relationships: [],
   };
   const id = payload?.userId || payload?.email;
+  const relationship_attributes = payload?.relationshipAttributes || {};
   let cioProperty = 'id';
   if (validateEmail(id)) {
     cioProperty = 'email';
   }
+
+  let cioObject = {};
+  if (relationship_attributes) {
+    cioObject['relationship_attributes'] = relationship_attributes;
+  }
+
   if (id) {
-    rawPayload.cio_relationships.push({ identifiers: { [cioProperty]: id } });
+    cioObject['identifiers'] = { [cioProperty]: id } 
+    rawPayload.cio_relationships.push(cioObject);
   }
   const requestConfig = defaultPostRequestConfig;
   const endpoint = OBJECT_EVENT_ENDPOINT;

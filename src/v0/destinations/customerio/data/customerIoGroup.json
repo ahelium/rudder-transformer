@@ -43,5 +43,10 @@
     "metadata": {
       "excludes": ["action"]
     }
+  },
+  {
+    "destKey": "relationshipAttributes",
+    "sourceKeys": "traits.relationshipAttributes",
+    "required": false
   }
 ]

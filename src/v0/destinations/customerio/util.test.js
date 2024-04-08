@@ -188,4 +188,33 @@ describe('Unit test cases for customerio groupResponseBuilder', () => {
     };
     expect(groupResponseBuilder(getGroupTestMessage(), 'user1')).toEqual(expectedOutput);
   });
+
+  it('should populate the cio_relationships object with identifiers and relationshipAttributes', async () => {
+    let expectedOutput = {
+      endpoint: 'https://track.customer.io/api/v2/batch',
+      rawPayload: {
+        action: 'identify',
+        attributes: {
+          createdAt: '2014-05-21T15:54:20Z',
+          name: 'rudder',
+          objectTypeId: 'obj1',
+          timestamp: '2014-05-21T15:54:20Z',
+          relationshipAttributes: {
+            role: 'role1',
+        },
+        },
+        cio_relationships: [
+          {
+            identifiers: {id: 'user1'},
+            relationship_attributes: {
+              role: 'role1',
+          }},
+        ],
+        identifiers: { object_id: 'group1', object_type_id: 'obj1' },
+        type: 'object',
+      },
+      requestConfig: { requestFormat: 'JSON', requestMethod: 'POST' },
+    };
+    expect(groupResponseBuilder(getGroupRelationshipTestMessage())).toEqual(expectedOutput);
+  });
 });
